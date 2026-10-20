@@ -18,6 +18,7 @@
 - 修订版本 `77c11c86ab12db4cbc08f44666fac5d160a95d2e` 的 [CI 39396463317](https://github.com/Aias00/envoy-learning-book/actions/runs/39396463317)：book、go-and-compose、gateway 三个 job 全部 success，gateway 包含真实 kind、Helm、HTTP 和 TLS。
 - [Pages 部署 39396463311](https://github.com/Aias00/envoy-learning-book/actions/runs/39396463311) success；浏览器实际打开 https://aias00.github.io/envoy-learning-book/ ，核对标题、正文与图片加载。
 - 首版电子书发布目标为 [v1.0.0](https://github.com/Aias00/envoy-learning-book/releases/tag/v1.0.0)，附件为83页PDF、EPUB、离线HTML、含图片的Markdown ZIP和SHA256校验文件。构建与内容完整性证据见上文；远端附件以该发布页面为准。
+- 发布版本 `1a2517e6771670e9138e2a0ea2e5619df5d3df77` 的 [CI 39399216174](https://github.com/Aias00/envoy-learning-book/actions/runs/39399216174) 与 [Pages 39399216148](https://github.com/Aias00/envoy-learning-book/actions/runs/39399216148) 均 success。v1.0.0 为非草稿公开发布，实际重新下载全部5附件；远端SHA256SUMS与本地产物一致，四个书籍文件逐个校验OK。
 
 ## 清理
 
