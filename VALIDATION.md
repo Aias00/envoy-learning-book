@@ -14,7 +14,14 @@
 ## 远端与发布
 
 - 首次书稿提交已推送到公开仓库 Aias00/envoy-learning-book。本机 Git HTTPS 网络失败后，在任务专用容器内完成同一个本地 commit 的正常 push，未改写历史。
-- 首轮远端 CI：book 与 go-and-compose 成功；gateway 在运行前因 runner 未安装 ripgrep 失败，已为该 job 显式安装 ripgrep/jq。主编已独立重跑修订后的本地 EG smoke 与 TLS，两项退出 0。最终版本 CI、Pages 和 Release 附件仍待完成验证。
+- 首轮远端 CI：book 与 go-and-compose 成功；gateway 在运行前因 runner 未安装 ripgrep 失败，已为该 job 显式安装 ripgrep/jq。主编独立重跑修订后的本地 EG smoke 与 TLS，两项退出 0。
+- 修订版本 `77c11c86ab12db4cbc08f44666fac5d160a95d2e` 的 [CI 39396463317](https://github.com/Aias00/envoy-learning-book/actions/runs/39396463317)：book、go-and-compose、gateway 三个 job 全部 success，gateway 包含真实 kind、Helm、HTTP 和 TLS。
+- [Pages 部署 39396463311](https://github.com/Aias00/envoy-learning-book/actions/runs/39396463311) success；浏览器实际打开 https://aias00.github.io/envoy-learning-book/ ，核对标题、正文与图片加载。
+- 首版电子书发布目标为 [v1.0.0](https://github.com/Aias00/envoy-learning-book/releases/tag/v1.0.0)，附件为83页PDF、EPUB、离线HTML、含图片的Markdown ZIP和SHA256校验文件。构建与内容完整性证据见上文；远端附件以该发布页面为准。
+
+## 清理
+
+两个 Compose 实验容器与网络已移除；2026-10-20 主编按 cleanup.sh 删除本次创建的唯一独立 kind 集群 envoy-book，随后 `kind get clusters` 返回 No kind clusters found。书稿、声明文件与镜像缓存保留，实验可从源码重新创建。电子书构建产物位于本地 dist/（不纳入 Git，由 Release 分发）。
 
 kind 没有 LoadBalancer 地址，Gateway Programmed=False / AddressNotAssigned；port-forward 的真实请求通过。这不代表公网入口、DNS、云负载均衡、源地址或高可用已验证。
 

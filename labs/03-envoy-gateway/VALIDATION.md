@@ -61,4 +61,4 @@ kind没有LoadBalancer地址，Gateway Programmed=False，reason为AddressNotAss
 
 脚本Bash语法、YAML解析、固定tag CRD字段结构与文档链接分别检查。真实运行不包含跨Namespace授权、上游TLS、全局限流、高可用故障演练、生产负载、滚动升级兼容性或完整遥测collector部署。
 
-本次保留独立集群供继续观察；脚本退出后结束自身port-forward。临时证书含私钥，保存在任务临时目录，未复制到仓库。需要彻底重置时运行本目录cleanup.sh，仅删除kind集群envoy-book；主机临时文件按精确路径另行处理。
+实验脚本退出后结束自身port-forward；最终主编复验后运行本目录cleanup.sh，仅删除本次创建的kind集群envoy-book，`kind get clusters`确认无剩余集群。临时证书含私钥，保存在任务临时目录，未复制到仓库。书稿与清单保留，后续可从setup.sh重新创建。
