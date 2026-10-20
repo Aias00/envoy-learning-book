@@ -19,10 +19,14 @@ python3 scripts/check_book.py
 
 ```sh
 npm ci
+python3 scripts/render_diagrams.py
 python3 scripts/export_book.py
+node scripts/export_pdf.mjs
 ```
 
-输出位于 dist/：完整 Markdown、单文件 HTML、EPUB。正文间的链接改为书内锚点，实验/源码树链接指向公开仓库；离线运行实验仍需提前下载仓库及镜像/依赖。EPUB 的可折叠答案展开显示，适配不支持 details 的阅读器。
+输出位于 dist/：完整 Markdown、单文件 HTML、EPUB，以及可选的 PDF。PDF 使用本机字体生成；若在 Linux 构建，先安装支持中文的字体，如 Noto Sans CJK。正文间的链接改为书内锚点，实验/源码树链接指向公开仓库；离线运行实验仍需提前下载仓库及镜像/依赖。EPUB 的可折叠答案展开显示，适配不支持 details 的阅读器。
+
+网页也使用提交在 book/assets/diagrams 的 SVG，不依赖外部 Mermaid CDN。改动图表后先重新渲染并提交新资产，再构建网页。dist 中的 Markdown 与 diagrams/ 应一起保存；HTML 与 EPUB 已内嵌图片，可单独分发。
 
 ## 实验验证
 

@@ -4,7 +4,7 @@
 
 ## 前置与版本
 
-需要已启动的 Docker 兼容运行时、Bash、curl、ripgrep（rg）、kubectl、kind、Helm；TLS步骤另外需要支持 `req -addext` 的 OpenSSL。建议至少给运行时分配4 CPU、6GiB内存与若干GiB可用磁盘；这是本地实验建议，不是软件最低资源承诺。
+需要已启动的 Docker 兼容运行时、Bash、curl、ripgrep（rg）、jq、kubectl、kind、Helm；TLS步骤另外需要支持 `req -addext` 的 OpenSSL。建议至少给运行时分配4 CPU、6GiB内存与若干GiB可用磁盘；这是本地实验建议，不是软件最低资源承诺。
 
 固定 Kubernetes 节点 `kindest/node:v1.34.0`，建议 kind v0.30.0+，Helm 3.19+（Helm 4 也可使用官方 OCI chart），kubectl 版本应与 Kubernetes v1.34 保持支持的版本差。Envoy Gateway 固定 `v1.9.2`。该tag兼容矩阵列出 Gateway API v1.6.1、Kubernetes v1.33–v1.36，chart 默认安装相应CRD。后端镜像使用与官方示例一致的 `registry.k8s.io/gateway-api/echo-basic:v1.5.1`。
 
@@ -16,13 +16,25 @@
 bash labs/03-envoy-gateway/smoke.sh
 ```
 
-smoke调用setup创建集群、安装官方Helm chart、应用基础资源，再检查Host转发200、未知Host 404、path/header路由和本地限流429。需要网络访问DockerHub和registry.k8s.io；首次拉取可能较慢。脚本保留集群，仅结束自己启动的本地port-forward，终端会报告日志目录。端口18888被占用时：
+smoke调用setup创建集群、安装官方Helm chart、应用基础资源，再检查Host转发200、未知Host 404、path/header路由和本地限流429。脚本按parent名称、Namespace及controllerName选择状态，等待当前generation的Route Accepted/ResolvedRefs与策略Accepted；先确认本次port-forward进程存活且日志出现Forwarding，再发送请求。HTTP探测每次连接超时2秒、总超时5秒，轮询有界。需要网络访问DockerHub和registry.k8s.io；首次拉取可能较慢。脚本保留集群，仅结束自己启动的本地port-forward，终端会报告日志目录。端口18888被占用时：
 
 ```bash
 ENVOY_BOOK_PORT=18889 bash labs/03-envoy-gateway/smoke.sh
 ```
 
 脚本的PASS仅覆盖它实际执行的检查。静态文件解析不能替代真实集群运行；本实验不包含生产负载、高可用或升级兼容性保证。
+
+## 网络受限时使用同一官方chart
+
+如果主机不能访问DockerHub，但可以从另一条受信网络下载同一chart，可先拉取官方固定版本，再给脚本指定本地tgz。setup会核对chart版本必须为v1.9.2：
+
+```bash
+helm pull oci://docker.io/envoyproxy/gateway-helm --version v1.9.2 --destination /具体任务临时目录
+ENVOY_BOOK_CHART=/具体任务临时目录/gateway-helm-v1.9.2.tgz \
+  bash labs/03-envoy-gateway/smoke.sh
+```
+
+占位目录需要替换为实际存在的精确路径。本次实测中，主机到registry-1.docker.io连接被reset，已有Alpine容器内部可达，因此在任务临时目录下载官方Linux Helm，在容器内执行相同helm pull，将tgz挂载回主机后安装。首次容器拉取遇DockerHub CDN EOF，第二次成功；没有修改用户DNS、代理或全局Docker配置。此方法解决chart获取，不保证节点拉取运行镜像的网络也通畅。实际版本、digest与检查结果见[验证记录](VALIDATION.md)。
 
 ## 分步观察
 

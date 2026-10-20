@@ -16,9 +16,10 @@ kind version
 kubectl version --client
 helm version
 rg --version
+jq --version
 ```
 
-脚本还需要 curl 和 Bash。ripgrep 的命令名是 rg，用于筛选预期输出。本书不自动安装这些主机工具，工具安装方式取决于操作系统。已有同名 kind 集群时，setup 会复用它；因此 `envoy-book` 应专门保留给本书实验，不要用它承载别的项目。
+脚本还需要 curl 和 Bash。ripgrep 的命令名是 rg，用于筛选预期输出；jq 用于核对正确父对象、控制器与当前 generation 的状态条件。本书不自动安装这些主机工具，工具安装方式取决于操作系统。已有同名 kind 集群时，setup 会复用它；因此 `envoy-book` 应专门保留给本书实验，不要用它承载别的项目。
 
 ## 18.2 先分步运行，再使用自动检查
 

@@ -2,7 +2,7 @@
 
 一本面向 Envoy 初学者的中文学习书。围绕 [envoyproxy/go-control-plane](https://github.com/envoyproxy/go-control-plane) 和 [envoyproxy/gateway](https://github.com/envoyproxy/gateway)，从一次 HTTP 请求讲起，走到动态配置、Kubernetes 网关和源码阅读。正文、完整实验与练习答案一起维护。
 
-**从这里开始：[阅读全书目录](book/index.md)。** 不需要先读懂两个仓库；前七章会补上网络、代理与 Envoy 的基础。会用终端即可开始，Go 和 Kubernetes 分别在对应篇章引入。
+**从这里开始：[阅读全书目录](book/index.md)。** 26 章正文约 4.7 万汉字，附四周学习计划、术语表和练习答案。不需要先读懂两个仓库；前七章会补上网络、代理与 Envoy 的基础。会用终端即可开始，Go 和 Kubernetes 分别在对应篇章引入。
 
 ## 你会得到什么
 
@@ -17,7 +17,7 @@
 
 ## 阅读和构建
 
-可以直接在 GitHub 阅读 Markdown。离线书籍文件位于 [Releases](https://github.com/Aias00/envoy-learning-book/releases)：EPUB 适合电子书阅读器，单文件 HTML 适合浏览器离线搜索和打印。
+可以直接在 GitHub 阅读 Markdown。离线书籍文件位于 [Releases](https://github.com/Aias00/envoy-learning-book/releases)：PDF 适合打印，EPUB 适合电子书阅读器，单文件 HTML 适合浏览器离线搜索。网页版本提供全书导航、中英文全文搜索和代码复制。
 
 本地可搜索网页：
 

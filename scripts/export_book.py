@@ -3,15 +3,17 @@
 from pathlib import Path
 import hashlib
 import re
+import shutil
 import subprocess
 
 ROOT = Path(__file__).resolve().parents[1]
 BOOK = ROOT / "book"
 OUT = ROOT / "dist"
-CACHE = ROOT / ".diagram-cache"
+CACHE = OUT / "diagrams"
 OUT.mkdir(exist_ok=True)
 CACHE.mkdir(exist_ok=True)
-files = [BOOK / "index.md", *sorted(BOOK.glob("[0-9][0-9]-*/*.md")), *sorted((BOOK / "appendices").glob("*.md"))]
+appendices = ["glossary.md", "versions.md", "source-index.md", "lab-reference.md"]
+files = [BOOK / "index.md", *sorted(BOOK.glob("[0-9][0-9]-*/*.md")), *[BOOK / "appendices" / name for name in appendices]]
 anchors = {p.resolve(): "section-" + str(i) for i, p in enumerate(files)}
 chunks = ["---\ntitle: 从零读懂 Envoy\nsubtitle: 代理基础、Go 控制平面与 Envoy Gateway\nlang: zh-CN\nauthor: Envoy 中文学习资料项目\nrights: Apache-2.0\n---\n"]
 
@@ -36,11 +38,11 @@ for path in files:
     def diagram(match):
         source = match.group(1)
         digest = hashlib.sha256(source.encode()).hexdigest()[:16]
-        src, svg = CACHE / f"{digest}.mmd", CACHE / f"{digest}.svg"
+        svg = ROOT / "book/assets/diagrams" / f"{digest}.svg"
         if not svg.exists():
-            src.write_text(source)
-            subprocess.run([str(ROOT / "node_modules/.bin/mmdc"), "-i", str(src), "-o", str(svg), "-b", "transparent"], check=True)
-        return f"\n![本节关系图]({svg.as_posix()})\n"
+            raise FileNotFoundError("Run scripts/render_diagrams.py first: " + str(svg))
+        shutil.copy2(svg, CACHE / svg.name)
+        return f"\n![本节关系图](diagrams/{svg.name})\n"
     body = re.sub(r"```mermaid\n(.*?)\n```", diagram, body, flags=re.S)
     body = re.sub(r"</?details[^>]*>", "", body)
     body = re.sub(r"<summary>(.*?)</summary>", r"\n**\1**\n", body)
@@ -48,7 +50,7 @@ for path in files:
 
 manuscript = OUT / "envoy-learning-book.md"
 manuscript.write_text("\n\n".join(chunks))
-common = ["pandoc", str(manuscript), "--from=markdown+implicit_figures", "--standalone", "--toc", "--toc-depth=2", "--resource-path=" + str(CACHE)]
+common = ["pandoc", str(manuscript), "--from=markdown+implicit_figures", "--standalone", "--toc", "--toc-depth=2", "--resource-path=" + str(OUT)]
 subprocess.run([*common, "--embed-resources", "--css=" + str(ROOT / "scripts/book.css"), "-o", str(OUT / "envoy-learning-book.html")], check=True)
 subprocess.run([*common, "--split-level=1", "--css=" + str(ROOT / "scripts/book.css"), "-o", str(OUT / "envoy-learning-book.epub")], check=True)
 print("Exported complete Markdown, standalone HTML and EPUB with embedded SVG diagrams to dist/.")

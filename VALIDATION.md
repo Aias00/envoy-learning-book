@@ -8,13 +8,15 @@
 - 静态实验：实际拉取 Envoy v1.36.0 与 nginx:1.29.2-alpine；Envoy `--mode validate`；smoke 验证默认 blue、/green 为 green、Admin LIVE。
 - 动态实验：Go 1.25.6；`go test -race ./...`、`go vet ./...`；Envoy bootstrap validate；实际构建容器并完成 blue → green → blue、非法 purple 返回 400、Admin LIVE。观察到四类资源 v2/v3 的真实 Envoy ACK、update_rejected 计数为 0。
 - 独立审阅基础/综合篇和两个 Go/Compose 实验：修复单文件 bind mount 原子保存后 restart 可能读旧文件的问题，统一用 force-recreate；补充综合蓝绿项目独立 selector/label，说明动态实验共享网络命名空间。
-- EG 八章与实验：固定 tag 源码链接、YAML 结构和 CRD 字段校验；实验脚本 bash 语法检查。真实运行仍在验证中，见下节。
-- MkDocs strict 构建成功；完整 Markdown、离线 HTML 与 EPUB 已首次导出，图表以嵌入 SVG 呈现。后续修改后还会重新验证最终产物。
+- EG 八章与实验：实际安装官方 v1.9.2 Helm chart，HTTP 200、未知 Host 404、请求头路由、本地限流 429、HTTPS 证书和主机名验证、JSON 访问日志、Prometheus 指标、12 资源服务器 dry-run 通过；修复后的最终 smoke 与 TLS 脚本重复执行均退出 0。详细环境、chart 与镜像 digest、TLS 反例、未测范围见 [实验三记录](labs/03-envoy-gateway/VALIDATION.md)。
+- MkDocs strict 构建和内部链接检查成功；浏览器确认中文正文、SVG 图、折叠答案列表与中英文搜索结果可用。完整 Markdown、离线 HTML、EPUB 和 PDF 已导出；PDF 83 页，文字提取可找到正文与全部四附录，抽查页面中文与代码正常。EPUB ZIP 完整性通过。
 
-## 当前仍在验证
+## 远端与发布
 
-- EG：独立 kind-envoy-book 已创建，Kubernetes v1.34.0 节点 Ready；Helm 拉取 Docker Hub OCI chart 被网络连接重置阻断，正在使用不改动用户全局配置的替代下载路径排查。此时尚不能声称 EG 业务链路或 TLS 实验运行通过。
-- 最终电子书完整性、浏览器呈现、CI 与 GitHub 提交/Release 尚待最终审计。
+- 首次书稿提交已推送到公开仓库 Aias00/envoy-learning-book。本机 Git HTTPS 网络失败后，在任务专用容器内完成同一个本地 commit 的正常 push，未改写历史。
+- 首轮远端 CI：book 与 go-and-compose 成功；gateway 在运行前因 runner 未安装 ripgrep 失败，已为该 job 显式安装 ripgrep/jq。主编已独立重跑修订后的本地 EG smoke 与 TLS，两项退出 0。最终版本 CI、Pages 和 Release 附件仍待完成验证。
+
+kind 没有 LoadBalancer 地址，Gateway Programmed=False / AddressNotAssigned；port-forward 的真实请求通过。这不代表公网入口、DNS、云负载均衡、源地址或高可用已验证。
 
 ## 环境问题与处理
 
