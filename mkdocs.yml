@@ -1,0 +1,87 @@
+site_name: 从零读懂 Envoy
+site_description: 面向零基础读者的代理、Go xDS 控制平面与 Envoy Gateway 中文学习书
+site_url: https://aias00.github.io/envoy-learning-book/
+repo_url: https://github.com/Aias00/envoy-learning-book
+repo_name: Aias00/envoy-learning-book
+docs_dir: book
+site_dir: site
+hooks:
+  - scripts/site_links.py
+theme:
+  name: material
+  language: zh
+  features:
+    - navigation.sections
+    - navigation.footer
+    - navigation.top
+    - content.code.copy
+  palette:
+    - scheme: default
+      primary: indigo
+      toggle:
+        icon: material/brightness-7
+        name: 深色模式
+    - scheme: slate
+      primary: indigo
+      toggle:
+        icon: material/brightness-4
+        name: 浅色模式
+plugins:
+  - search:
+      lang: zh
+markdown_extensions:
+  - admonition
+  - tables
+  - attr_list
+  - md_in_html
+  - pymdownx.details
+  - pymdownx.highlight
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - toc:
+      permalink: true
+validation:
+  nav:
+    omitted_files: warn
+  links:
+    not_found: warn
+nav:
+  - 阅读指南: index.md
+  - 第一篇 · Envoy 基础:
+      - 01 一次请求: 01-foundations/01-one-request.md
+      - 02 代理与网关: 01-foundations/02-proxy-and-gateway.md
+      - 03 三个项目: 01-foundations/03-three-projects.md
+      - 04 资源关系图: 01-foundations/04-resource-graph.md
+      - 05 静态配置: 01-foundations/05-static-config.md
+      - 06 第一次实验: 01-foundations/06-first-lab.md
+      - 07 控制平面: 01-foundations/07-control-plane.md
+  - 第二篇 · Go 控制平面:
+      - 08 xDS 协议: 02-go-control-plane/08-xds-protocol.md
+      - 09 Go 与 Protobuf: 02-go-control-plane/09-go-and-protobuf.md
+      - 10 资源模型: 02-go-control-plane/10-resource-model.md
+      - 11 SnapshotCache: 02-go-control-plane/11-snapshot-cache.md
+      - 12 gRPC 服务端: 02-go-control-plane/12-grpc-server.md
+      - 13 动态更新: 02-go-control-plane/13-dynamic-updates.md
+      - 14 源码导读: 02-go-control-plane/14-source-tour.md
+      - 15 生产边界: 02-go-control-plane/15-production-boundaries.md
+  - 第三篇 · Envoy Gateway:
+      - 16 Kubernetes 基础: 03-envoy-gateway/16-kubernetes-basics.md
+      - 17 Gateway API: 03-envoy-gateway/17-gateway-api.md
+      - 18 第一个网关: 03-envoy-gateway/18-first-gateway.md
+      - 19 路由与策略: 03-envoy-gateway/19-routing-and-policies.md
+      - 20 TLS 与安全: 03-envoy-gateway/20-tls-and-security.md
+      - 21 可观测性: 03-envoy-gateway/21-observability.md
+      - 22 源码导读: 03-envoy-gateway/22-source-tour.md
+      - 23 扩展与运维: 03-envoy-gateway/23-extensions-and-operations.md
+  - 第四篇 · 综合实践:
+      - 24 分层排障: 04-practice/24-troubleshooting.md
+      - 25 综合项目: 04-practice/25-capstone.md
+      - 26 学习计划: 04-practice/26-learning-plan.md
+  - 附录:
+      - 中英术语表: appendices/glossary.md
+      - 版本与来源: appendices/versions.md
+      - 源码索引: appendices/source-index.md
+      - 实验速查: appendices/lab-reference.md

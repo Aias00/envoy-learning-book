@@ -1,0 +1,9 @@
+{
+  "name": "envoy-learning-book-build",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Optional Mermaid rendering for offline book exports",
+  "devDependencies": {
+    "@mermaid-js/mermaid-cli": "11.12.0"
+  }
+}

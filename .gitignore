@@ -1,0 +1,11 @@
+.sources/
+.venv/
+site/
+dist/
+.DS_Store
+__pycache__/
+*.pyc
+node_modules/
+.diagram-cache/
+labs/**/bin/
+labs/**/logs/

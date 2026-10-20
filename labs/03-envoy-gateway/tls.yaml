@@ -1,0 +1,37 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: book-tls
+  namespace: envoy-book
+spec:
+  gatewayClassName: envoy-book
+  listeners:
+    - name: https
+      protocol: HTTPS
+      port: 443
+      hostname: secure.book.example
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - group: ""
+            kind: Secret
+            name: book-tls
+      allowedRoutes:
+        namespaces:
+          from: Same
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: secure
+  namespace: envoy-book
+spec:
+  parentRefs:
+    - name: book-tls
+      sectionName: https
+  hostnames:
+    - secure.book.example
+  rules:
+    - backendRefs:
+        - name: backend
+          port: 3000

@@ -1,0 +1,105 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: envoy-book
+  labels:
+    app.kubernetes.io/part-of: envoy-book
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: GatewayClass
+metadata:
+  name: envoy-book
+spec:
+  controllerName: gateway.envoyproxy.io/gatewayclass-controller
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: book
+  namespace: envoy-book
+spec:
+  gatewayClassName: envoy-book
+  listeners:
+    - name: http
+      protocol: HTTP
+      port: 80
+      allowedRoutes:
+        namespaces:
+          from: Same
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend
+  namespace: envoy-book
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: book-backend
+  template:
+    metadata:
+      labels:
+        app: book-backend
+    spec:
+      containers:
+        - name: backend
+          image: registry.k8s.io/gateway-api/echo-basic:v1.5.1
+          ports:
+            - name: http
+              containerPort: 3000
+          env:
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+          readinessProbe:
+            httpGet:
+              port: http
+              path: /
+            initialDelaySeconds: 1
+          resources:
+            requests:
+              cpu: 10m
+              memory: 16Mi
+            limits:
+              memory: 128Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend
+  namespace: envoy-book
+spec:
+  selector:
+    app: book-backend
+  ports:
+    - name: http
+      port: 3000
+      targetPort: http
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: backend
+  namespace: envoy-book
+spec:
+  parentRefs:
+    - name: book
+      sectionName: http
+  hostnames:
+    - book.example
+  rules:
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /
+      backendRefs:
+        - group: ""
+          kind: Service
+          name: backend
+          port: 3000

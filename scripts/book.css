@@ -1,0 +1,11 @@
+body { font-family: system-ui, 'Noto Sans CJK SC', 'PingFang SC', sans-serif; line-height: 1.8; max-width: 52rem; margin: 2rem auto; padding: 0 1rem; color: #182235; }
+h1, h2, h3 { line-height: 1.4; }
+h1 { margin-top: 3rem; }
+pre { background: #f2f4f8; padding: 1rem; overflow: auto; line-height: 1.5; }
+code { font-family: ui-monospace, 'SFMono-Regular', Consolas, monospace; font-size: .9em; }
+table { border-collapse: collapse; width: 100%; font-size: .9em; }
+th, td { border: 1px solid #cfd6e1; padding: .5rem; vertical-align: top; }
+th { background: #eef2fb; }
+img, svg { max-width: 100%; height: auto; }
+a { color: #3456b0; }
+@media print { body { max-width: none; margin: 0; } h1 { break-before: page; } pre { white-space: pre-wrap; } }

@@ -1,0 +1,26 @@
+name: envoy-book-xds
+services:
+  control-plane:
+    build: .
+    ports:
+      - "127.0.0.1:19000:19000"
+  envoy:
+    image: envoyproxy/envoy:v1.36.0
+    command: ["-c", "/etc/envoy/envoy.yaml", "--log-level", "info"]
+    volumes:
+      - ./envoy.yaml:/etc/envoy/envoy.yaml:ro
+    ports:
+      - "127.0.0.1:18080:8080"
+      - "127.0.0.1:19901:9901"
+    depends_on:
+      - control-plane
+  # The two toy backends share Envoy's network namespace, so EDS can use
+  # numeric loopback addresses. Real EDS must publish reachable endpoint IPs.
+  blue:
+    build: .
+    command: ["backend", "blue", ":8081"]
+    network_mode: "service:envoy"
+  green:
+    build: .
+    command: ["backend", "green", ":8082"]
+    network_mode: "service:envoy"

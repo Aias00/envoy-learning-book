@@ -1,0 +1,15 @@
+从零读懂 Envoy
+Copyright 2026 Envoy 中文学习资料项目 contributors
+
+本项目为独立中文学习资料，未获 Envoy 项目官方背书。
+Envoy、Envoy Gateway 和 go-control-plane 的名称归其各自权利人所有。
+
+本书围绕以下 Apache-2.0 上游项目进行原创讲解和源码引用：
+  https://github.com/envoyproxy/gateway (v1.9.2)
+  Copyright Envoy Gateway Authors
+  https://github.com/envoyproxy/go-control-plane (v0.14.0)
+  Copyright Envoyproxy Authors
+
+上游代码及其衍生引用保留原有许可证条件。
+引用和改编的配置模式在相应章节及实验 README 说明来源。
+第三方依赖和容器镜像遵循其各自许可证；本书不重新授权这些内容。

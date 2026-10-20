@@ -1,0 +1,35 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: routing
+  namespace: envoy-book
+spec:
+  parentRefs:
+    - name: book
+      sectionName: http
+  hostnames:
+    - routing.example
+  rules:
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /api
+          headers:
+            - name: x-book-mode
+              value: debug
+      filters:
+        - type: ResponseHeaderModifier
+          responseHeaderModifier:
+            set:
+              - name: x-book-route
+                value: debug-api
+      backendRefs:
+        - name: backend
+          port: 3000
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /api
+      backendRefs:
+        - name: backend
+          port: 3000

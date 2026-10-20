@@ -1,0 +1,25 @@
+apiVersion: gateway.envoyproxy.io/v1alpha1
+kind: EnvoyProxy
+metadata:
+  name: book-observability
+  namespace: envoy-book
+spec:
+  telemetry:
+    accessLog:
+      settings:
+        - format:
+            type: JSON
+            json:
+              method: "%REQ(:METHOD)%"
+              path: "%REQ(:PATH)%"
+              status: "%RESPONSE_CODE%"
+              flags: "%RESPONSE_FLAGS%"
+              detail: "%RESPONSE_CODE_DETAILS%"
+              route: "%ROUTE_NAME%"
+              upstream: "%UPSTREAM_HOST%"
+              request_id: "%REQ(X-REQUEST-ID)%"
+              duration_ms: "%DURATION%"
+          sinks:
+            - type: File
+              file:
+                path: /dev/stdout

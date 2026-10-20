@@ -1,0 +1,21 @@
+name: envoy-book-static
+services:
+  blue:
+    image: nginx:1.29.2-alpine
+    volumes:
+      - ./blue.conf:/etc/nginx/conf.d/default.conf:ro
+  green:
+    image: nginx:1.29.2-alpine
+    volumes:
+      - ./green.conf:/etc/nginx/conf.d/default.conf:ro
+  envoy:
+    image: envoyproxy/envoy:v1.36.0
+    command: ["-c", "/etc/envoy/envoy.yaml", "--log-level", "info"]
+    volumes:
+      - ./envoy.yaml:/etc/envoy/envoy.yaml:ro
+    ports:
+      - "127.0.0.1:18000:8080"
+      - "127.0.0.1:19900:9901"
+    depends_on:
+      - blue
+      - green
