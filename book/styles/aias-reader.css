@@ -1,0 +1,177 @@
+/* Aias Reader 1.0 — vendored into each book; no remote assets required. */
+@media screen {
+  :root {
+    --reader-page: #f7f7f3 !important;
+    --reader-surface: #fffefa !important;
+    --reader-text: #292e34 !important;
+    --reader-muted: #626b74 !important;
+    --reader-line: #dedfd9 !important;
+    --reader-accent: #28685c !important;
+    --reader-soft: #eaf0eb !important;
+    --reader-code: #eff0ec !important;
+    --reader-keyword: #73579d !important;
+    --reader-string: #28685c !important;
+    --reader-number: #955028 !important;
+    color-scheme: light !important;
+  }
+  :root[data-theme="dark"], body.dark, body[data-md-color-scheme="slate"] {
+    --reader-page: #1c1f24 !important;
+    --reader-surface: #22262c !important;
+    --reader-text: #d7dce2 !important;
+    --reader-muted: #a0a8b3 !important;
+    --reader-line: #3b414a !important;
+    --reader-accent: #91c5b5 !important;
+    --reader-soft: #2b3835 !important;
+    --reader-code: #282d34 !important;
+    --reader-keyword: #c6afe8 !important;
+    --reader-string: #a4c6a0 !important;
+    --reader-number: #dfb385 !important;
+    color-scheme: dark !important;
+  }
+  /* Adapt the existing readers without changing their content or navigation. */
+  :root, body {
+    --bg: var(--reader-page) !important;
+    --page-bg: var(--reader-page) !important;
+    --paper: var(--reader-surface) !important;
+    --surface: var(--reader-surface) !important;
+    --panel: var(--reader-surface) !important;
+    --surface-muted: var(--reader-code) !important;
+    --ink: var(--reader-text) !important;
+    --fg: var(--reader-text) !important;
+    --text: var(--reader-text) !important;
+    --heading: var(--reader-text) !important;
+    --muted: var(--reader-muted) !important;
+    --line: var(--reader-line) !important;
+    --accent: var(--reader-accent) !important;
+    --accent-hover: var(--reader-accent) !important;
+    --accent-soft: var(--reader-soft) !important;
+    --code: var(--reader-code) !important;
+    --code-bg: var(--reader-code) !important;
+    --focus: var(--reader-accent) !important;
+    --header-bg: var(--reader-page) !important;
+    --md-default-bg-color: var(--reader-page) !important;
+    --md-default-fg-color: var(--reader-text) !important;
+    --md-default-fg-color--light: var(--reader-muted) !important;
+    --md-default-fg-color--lighter: var(--reader-line) !important;
+    --md-primary-fg-color: var(--reader-surface) !important;
+    --md-primary-bg-color: var(--reader-text) !important;
+    --md-accent-fg-color: var(--reader-accent) !important;
+    --md-typeset-color: var(--reader-text) !important;
+    --md-typeset-a-color: var(--reader-accent) !important;
+    --md-code-bg-color: var(--reader-code) !important;
+    --md-code-fg-color: var(--reader-text) !important;
+    --md-code-hl-comment-color: var(--reader-muted) !important;
+    --md-code-hl-keyword-color: var(--reader-keyword) !important;
+    --md-code-hl-string-color: var(--reader-string) !important;
+    --md-code-hl-number-color: var(--reader-number) !important;
+  }
+  html { -webkit-text-size-adjust: 100%; scrollbar-color: var(--reader-line) var(--reader-page); }
+  body {
+    background: var(--reader-page) !important;
+    color: var(--reader-text) !important;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif !important;
+    -webkit-font-smoothing: antialiased;
+  }
+  ::selection { background: var(--reader-accent); color: var(--reader-page); }
+  :focus-visible { outline: 2px solid var(--reader-accent); outline-offset: 4px; }
+  :is(main, article, .prose, .book-content, #book, .md-typeset, .aias-basic-reader) {
+    font-family: inherit;
+    font-size: var(--reader-size, var(--body-size, var(--reading-size, var(--size, 18px)))) !important;
+    line-height: 1.95;
+    overflow-wrap: break-word;
+  }
+  :is(main, article, .prose, .book-content, #book, .md-typeset, .aias-basic-reader) :is(h1, h2, h3, h4) {
+    color: var(--reader-text) !important;
+    font-family: inherit;
+    line-height: 1.5;
+    font-weight: 650;
+  }
+  :is(main, article, .prose, .book-content, #book, .md-typeset, .aias-basic-reader) p { text-align: start; }
+  :is(main, article, .prose, .book-content, #book, .md-typeset, .aias-basic-reader) a {
+    color: var(--reader-accent) !important;
+    text-decoration-color: var(--reader-accent);
+    text-underline-offset: .2em;
+    overflow-wrap: anywhere;
+  }
+  :is(main, article, .prose, .book-content, #book, .md-typeset, .aias-basic-reader) pre {
+    background: var(--reader-code) !important;
+    color: var(--reader-text) !important;
+    border: 1px solid var(--reader-line) !important;
+    border-radius: 8px;
+    max-width: 100%;
+    overflow-x: auto;
+    white-space: pre;
+    overflow-wrap: normal;
+    line-height: 1.75;
+    tab-size: 4;
+    scrollbar-width: thin;
+  }
+  :is(main, article, .prose, .book-content, #book, .md-typeset, .aias-basic-reader) code {
+    font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+    font-variant-ligatures: none;
+  }
+  :is(main, article, .prose, .book-content, #book, .md-typeset, .aias-basic-reader) :not(pre) > code {
+    background: var(--reader-code) !important;
+    color: var(--reader-text) !important;
+    border-radius: 4px;
+    padding: .12em .3em;
+  }
+  :is(main, article, .prose, .book-content, #book, .md-typeset, .aias-basic-reader) pre code {
+    background: transparent !important;
+    color: inherit !important;
+    padding: 0;
+    white-space: pre;
+    overflow-wrap: normal;
+  }
+  :is(main, article, .prose, .book-content, #book, .md-typeset, .aias-basic-reader) pre code span { color: inherit !important; }
+  :is(main, article, .prose, .book-content, #book, .md-typeset, .aias-basic-reader) pre code :is(.kw, .cf, .dt, .bu, .fu, .k, .kn, .kd, .kc, .kt) { color: var(--reader-keyword) !important; }
+  :is(main, article, .prose, .book-content, #book, .md-typeset, .aias-basic-reader) pre code :is(.st, .ch, .vs, .s, .s1, .s2) { color: var(--reader-string) !important; }
+  :is(main, article, .prose, .book-content, #book, .md-typeset, .aias-basic-reader) pre code :is(.dv, .bn, .fl, .mi, .mf) { color: var(--reader-number) !important; }
+  :is(main, article, .prose, .book-content, #book, .md-typeset, .aias-basic-reader) pre code :is(.co, .cv, .an, .do, .c, .c1, .cm, .cp) { color: var(--reader-muted) !important; font-style: normal; }
+  :is(main, article, .prose, .book-content, #book, .md-typeset, .aias-basic-reader) blockquote {
+    background: var(--reader-soft) !important;
+    color: var(--reader-text) !important;
+    border-left: 3px solid var(--reader-accent) !important;
+  }
+  :is(main, article, .prose, .book-content, #book, .md-typeset, .aias-basic-reader) :is(th, td) { border-color: var(--reader-line) !important; }
+  :is(main, article, .prose, .book-content, #book, .md-typeset, .aias-basic-reader) th { background: var(--reader-code) !important; color: var(--reader-text) !important; }
+  :is(main, article, .prose, .book-content, #book, .md-typeset, .aias-basic-reader) :is(img, svg) { max-width: 100%; height: auto; }
+  :is(.sidebar, #sidebar, .book-sidebar, .md-sidebar, .mobile-header, .mobile-menu nav) {
+    background: var(--reader-surface) !important;
+    color: var(--reader-text) !important;
+    border-color: var(--reader-line) !important;
+  }
+  :is(aside, .sidebar, .md-sidebar) a { color: var(--reader-muted); }
+  :is(aside, .sidebar, .md-sidebar) a:hover,
+  :is(aside, .sidebar, .md-sidebar) a[aria-current] { color: var(--reader-accent) !important; background: var(--reader-soft) !important; }
+  :is(.brand-title, .brand-subtitle, .nav-number, .sidebar-brand .eyebrow, .edition) { color: var(--reader-muted) !important; }
+  :is(.primary-action, .button-primary, .primary-button, .start, .hero .button) {
+    background: var(--reader-accent) !important;
+    color: var(--reader-page) !important;
+    border-color: var(--reader-accent) !important;
+  }
+  .contents-list a:hover { background: var(--reader-soft) !important; }
+  .aias-basic-reader > #title-block-header { display: none; }
+  .aias-basic-reader #TOC:not(:has(a)) { display: none; }
+  .aias-basic-reader h1 { font-size: 1.7em; margin-top: 1.4em; }
+  .aias-basic-reader blockquote { margin-inline: 0; padding: .5em 1.1em; }
+  .aias-reader-tools { display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-end; gap: 12px; padding: 12px 0; margin: 0 0 16px; font-size: 13px; }
+  .aias-reader-tools a { color: var(--reader-muted); }
+  .aias-reader-theme {
+    color: var(--reader-text) !important;
+    background: var(--reader-surface) !important;
+    border: 1px solid var(--reader-line) !important;
+    border-radius: 6px;
+    padding: 7px 11px;
+    font: inherit;
+    font-size: 12px;
+    line-height: 1.5;
+    min-height: 34px;
+    cursor: pointer;
+  }
+  @media (max-width: 680px) {
+    :is(main, article, .prose, .book-content, #book, .md-typeset, .aias-basic-reader) {
+      font-size: var(--reader-size, var(--body-size, var(--reading-size, var(--size, 17px)))) !important;
+    }
+  }
+}

@@ -85,3 +85,9 @@ nav:
       - 版本与来源: appendices/versions.md
       - 源码索引: appendices/source-index.md
       - 实验速查: appendices/lab-reference.md
+
+extra_css:
+  - styles/aias-reader.css
+
+extra_javascript:
+  - styles/aias-reader.js
